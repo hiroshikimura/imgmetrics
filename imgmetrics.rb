@@ -24,11 +24,22 @@ puts "reading #{f}"
 #      puts "#{name} = #{value}"
 #    end
 #  end
+  cw = (img.rows < img.columns)? img.rows : img.columns
+  cx = cw / 2
+  cy = cx
   list << {
-    index: idx,
-    name: img.filename.unpack('U*').map{|i| "\\u" + i.to_s(16).rjust(4,'0')}.join,
-    width: img.columns,
-    height: img.rows
+    index: "image-#{idx}",
+    detail: {
+      url: img.filename.unpack('U*').map{|i| "\\u" + i.to_s(16).rjust(4,'0')}.join,
+      rect: {
+        width: img.columns,
+        height: img.rows
+      },
+      view: {
+        center: {x: cy, y: cx},
+        width: cw
+      }
+    }
   }
 end
 
