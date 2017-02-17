@@ -1,13 +1,17 @@
+#!/usr/bin/ruby
+# -*- coding: utf-8 -*-
+
 require 'RMagick'
 require 'json'
 require 'URI'
+require 'pry'
 
 list = []
 
 ARGV.each_with_index do |f, idx|
 #  #img = Magick::Image.read(f).first
   img = Magick::ImageList.new(f)
-puts "reading #{f}"
+  puts "reading #{f}"
 #  img.strip!
 #  puts "FILENAME  : #{img.filename}"
 #  puts "FORMAT    : #{img.format}"
@@ -28,9 +32,9 @@ puts "reading #{f}"
   cx = cw / 2
   cy = cx
   list << {
-    index: "image-#{idx}",
+    id: "image-#{idx}",
     detail: {
-      url: img.filename.unpack('U*').map{|i| "\\u" + i.to_s(16).rjust(4,'0')}.join,
+      url: img.filename.force_encoding('UTF-8'),
       rect: {
         width: img.columns,
         height: img.rows
