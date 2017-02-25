@@ -1,10 +1,11 @@
 #!/usr/bin/ruby
 # -*- coding: utf-8 -*-
 
-require 'RMagick'
+require 'rmagick'
 require 'json'
-require 'URI'
+require 'uri'
 require 'pry'
+require 'digest/sha1'
 
 list = []
 
@@ -35,13 +36,16 @@ ARGV.each_with_index do |f, idx|
     id: "image-#{idx}",
     detail: {
       url: img.filename.force_encoding('UTF-8'),
+      digest: Digest::SHA1.file(img.filename.force_encoding('UTF-8')).to_s,
       rect: {
         width: img.columns,
         height: img.rows
       },
       view: {
-        center: {x: cy, y: cx},
-        width: cw
+        x: 0,
+        y: 0,
+        width: cw,
+        height: cw
       }
     }
   }
